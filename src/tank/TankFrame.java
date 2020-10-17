@@ -7,23 +7,15 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class TankFrame extends Frame {
-    // 不要忘记初始化
-    private int xPos = 200;
-    private int yPos = 200;
-    // 引入方向的概念
-    Dir dir = Dir.DOWN;
-    // 定义坦克移动的速度
-    private static final int speed = 4;
 
+    Tank myTank = new Tank(200, 200, Dir.DOWN);
 
     public TankFrame() {
         setSize(800, 600);
         setTitle("tank war");
         setVisible(true);
         setResizable(false);
-
         addKeyListener(new MyKeyListener());
-
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -34,23 +26,7 @@ public class TankFrame extends Frame {
 
     @Override
     public void paint(Graphics g) {
-        g.fillRect(xPos, yPos, 50, 50);
-        // 在此处使用递加的操作每次改变x，y的值来使每次调用print方法的时候使坦克动起来
-        // 这里使用方向来判断一直走的路线
-        switch (dir) {
-            case UP:
-                yPos -= speed;
-                break;
-            case DOWN:
-                yPos += speed;
-                break;
-            case LEFT:
-                xPos -= speed;
-                break;
-            case RIGHT:
-                xPos += speed;
-                break;
-        }
+        myTank.paint(g);
     }
 
     class MyKeyListener extends KeyAdapter {
@@ -109,16 +85,16 @@ public class TankFrame extends Frame {
         private void upTankDir() {
             // 如果键盘按住了，则会将方向设置成对应的方向，如果释放了，则不对但钱方向进行修改
             if (goLeft) {
-                dir = Dir.LEFT;
+                myTank.setDir(Dir.LEFT);
             }
             if (goRight) {
-                dir = Dir.RIGHT;
+                myTank.setDir(Dir.RIGHT);
             }
             if (goUp) {
-                dir = Dir.UP;
+                myTank.setDir(Dir.UP);
             }
             if (goDown) {
-                dir = Dir.DOWN;
+                myTank.setDir(Dir.DOWN);
             }
         }
     }
