@@ -34,8 +34,8 @@ public class TankFrame extends Frame {
         System.out.println("hello");
         g.fillRect(xPos, yPos, 50, 50);
         // 在此处使用递加的操作每次改变x，y的值来使每次调用print方法的时候使坦克动起来
-        xPos += 50;
-        yPos += 50;
+        xPos += 10;
+        yPos += 10;
     }
 
     static class MyKeyListener extends KeyAdapter {
