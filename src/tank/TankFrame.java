@@ -31,22 +31,33 @@ public class TankFrame extends Frame {
 
     @Override
     public void paint(Graphics g) {
-        System.out.println("hello");
         g.fillRect(xPos, yPos, 50, 50);
         // 在此处使用递加的操作每次改变x，y的值来使每次调用print方法的时候使坦克动起来
-        xPos += 10;
-        yPos += 10;
     }
 
-    static class MyKeyListener extends KeyAdapter {
+    class MyKeyListener extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {
             System.out.println(e.getKeyChar());
+            int keyCode = e.getKeyCode();
+            switch (keyCode) {
+                case KeyEvent.VK_UP:
+                    yPos -= 10;
+                    break;
+                case KeyEvent.VK_DOWN:
+                    yPos += 10;
+                    break;
+                case KeyEvent.VK_LEFT:
+                    xPos -= 10;
+                    break;
+                case KeyEvent.VK_RIGHT:
+                    xPos += 10;
+                    break;
+            }
         }
 
         @Override
         public void keyReleased(KeyEvent e) {
-            System.out.println(e.getKeyChar());
         }
     }
 }
