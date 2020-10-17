@@ -83,18 +83,25 @@ public class TankFrame extends Frame {
         }
 
         private void upTankDir() {
-            // 如果键盘按住了，则会将方向设置成对应的方向，如果释放了，则不对但钱方向进行修改
-            if (goLeft) {
-                myTank.setDir(Dir.LEFT);
-            }
-            if (goRight) {
-                myTank.setDir(Dir.RIGHT);
-            }
-            if (goUp) {
-                myTank.setDir(Dir.UP);
-            }
-            if (goDown) {
-                myTank.setDir(Dir.DOWN);
+
+            if (!goDown && !goUp && !goRight && !goLeft) {
+                myTank.setMoving(false);
+            } else {
+                // 记得将坦克移动设置为true，因为默认为false
+                myTank.setMoving(true);
+                // 如果键盘按住了，则会将方向设置成对应的方向，如果释放了，则不对当前方向进行修改
+                if (goLeft) {
+                    myTank.setDir(Dir.LEFT);
+                }
+                if (goRight) {
+                    myTank.setDir(Dir.RIGHT);
+                }
+                if (goUp) {
+                    myTank.setDir(Dir.UP);
+                }
+                if (goDown) {
+                    myTank.setDir(Dir.DOWN);
+                }
             }
         }
     }
