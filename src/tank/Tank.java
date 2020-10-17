@@ -36,8 +36,11 @@ public class Tank {
     }
 
     public void paint(Graphics g) {
+        Color color = g.getColor();
+        g.setColor(Color.green);
         // 坦克自己将自己在画布上画出来
         g.fillRect(xPos, yPos, 50, 50);
+        g.setColor(color);
         move();
     }
 
