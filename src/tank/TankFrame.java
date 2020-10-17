@@ -9,6 +9,7 @@ import java.awt.event.WindowEvent;
 public class TankFrame extends Frame {
 
     Tank myTank = new Tank(200, 200, Dir.DOWN);
+    Bullet myBullet = new Bullet(225, 225, Dir.UP);
 
     public TankFrame() {
         setSize(800, 600);
@@ -27,6 +28,7 @@ public class TankFrame extends Frame {
     @Override
     public void paint(Graphics g) {
         myTank.paint(g);
+        myBullet.print(g);
     }
 
     class MyKeyListener extends KeyAdapter {

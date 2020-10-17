@@ -9,7 +9,7 @@ public class Tank {
     // 引入方向的概念
     private Dir dir = Dir.DOWN;
     // 定义坦克移动的速度，声明为final无法进行改变
-    private static final int speed = 4;
+    private static final int SPEED = 5;
     // 定义坦克是否移动，用于处理坦克静止的情况
     private boolean moving = false;
 
@@ -50,16 +50,16 @@ public class Tank {
         // 这里使用方向来判断一直走的路线
         switch (dir) {
             case UP:
-                yPos -= speed;
+                yPos -= SPEED;
                 break;
             case DOWN:
-                yPos += speed;
+                yPos += SPEED;
                 break;
             case LEFT:
-                xPos -= speed;
+                xPos -= SPEED;
                 break;
             case RIGHT:
-                xPos += speed;
+                xPos += SPEED;
                 break;
         }
     }
