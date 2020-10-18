@@ -15,7 +15,7 @@ public class Bullet {
     private Dir dir;
 
     // 定义子弹的速度
-    private static final int SPEED = 1;
+    private static final int SPEED = 5;
 
     public Bullet(int xPos, int yPos, Dir dir) {
         this.xPos = xPos;

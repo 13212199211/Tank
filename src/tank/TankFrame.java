@@ -11,9 +11,8 @@ public class TankFrame extends Frame {
     private static final int GAME_WIDTH = 800;
     private static final int GAME_HEIGHT = 600;
 
-    private Tank myTank = new Tank(200, 200, Dir.DOWN);
-    private Bullet myBullet = new Bullet(225, 225, Dir.UP);
-
+    private Tank myTank = new Tank(200, 200, Dir.DOWN, this);
+    private Bullet myBullet = new Bullet(300, 300, Dir.DOWN);
 
     public TankFrame() {
         setSize(GAME_WIDTH, GAME_HEIGHT);
@@ -55,7 +54,16 @@ public class TankFrame extends Frame {
         g.drawImage(offScreenImage, 0, 0, null);
     }
 
+    public Bullet getMyBullet() {
+        return myBullet;
+    }
+
+    public void setMyBullet(Bullet myBullet) {
+        this.myBullet = myBullet;
+    }
+
     class MyKeyListener extends KeyAdapter {
+
         // 定义四个将要走的方向
         boolean goUp = false;
         boolean goDown = false;
@@ -100,6 +108,9 @@ public class TankFrame extends Frame {
                     break;
                 case KeyEvent.VK_RIGHT:
                     goRight = false;
+                    break;
+                case KeyEvent.VK_CONTROL:
+                    myTank.fire();
                     break;
                 default:
                     break;
