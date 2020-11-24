@@ -8,8 +8,8 @@ public class Tank {
     private int yPos = 200;
 
     // 坦克的长宽
-    private static final int WIDTH = 50;
-    private static final int HEIGHT = 50;
+    private static final int WIDTH = ResourceMgr.tankD.getWidth();
+    private static final int HEIGHT = ResourceMgr.tankD.getHeight();
 
     // 引入方向的概念
     private Dir dir = Dir.DOWN;
@@ -47,11 +47,20 @@ public class Tank {
     }
 
     public void paint(Graphics g) {
-        Color color = g.getColor();
-        g.setColor(Color.green);
-        // 坦克自己将自己在画布上画出来
-        g.fillRect(xPos, yPos, WIDTH, HEIGHT);
-        g.setColor(color);
+        switch (dir) {
+            case RIGHT:
+                g.drawImage(ResourceMgr.tankR, xPos, yPos, null);
+                break;
+            case LEFT:
+                g.drawImage(ResourceMgr.tankL, xPos, yPos, null);
+                break;
+            case UP:
+                g.drawImage(ResourceMgr.tankU, xPos, yPos, null);
+                break;
+            case DOWN:
+                g.drawImage(ResourceMgr.tankD, xPos, yPos, null);
+                break;
+        }
         move();
     }
 
@@ -79,7 +88,7 @@ public class Tank {
     }
 
     public void fire() {
-        Bullet bullet = new Bullet(xPos + WIDTH / 2, yPos + HEIGHT / 2, dir);
-        tankFrame.setMyBullet(bullet);
+        Bullet bullet = new Bullet(xPos + (WIDTH - Bullet.WIDTH) / 2, yPos + (HEIGHT - Bullet.HEIGHT) / 2, dir, tankFrame);
+        tankFrame.getBulletList().add(bullet);
     }
 }

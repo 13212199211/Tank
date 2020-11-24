@@ -5,14 +5,17 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class TankFrame extends Frame {
 
-    private static final int GAME_WIDTH = 800;
-    private static final int GAME_HEIGHT = 600;
+    public static final int GAME_WIDTH = 1500;
+    public static final int GAME_HEIGHT = 1000;
 
     private Tank myTank = new Tank(200, 200, Dir.DOWN, this);
-    private Bullet myBullet = new Bullet(300, 300, Dir.DOWN);
+    private List<Bullet> bulletList = new ArrayList<Bullet>();
 
     public TankFrame() {
         setSize(GAME_WIDTH, GAME_HEIGHT);
@@ -28,14 +31,20 @@ public class TankFrame extends Frame {
         });
     }
 
+    public List<Bullet> getBulletList() {
+        return bulletList;
+    }
     @Override
     public void paint(Graphics g) {
-
-
+        Color c = g.getColor();
+        g.setColor(Color.WHITE);
+        g.drawString("子弹的数量:" + bulletList.size(), 10, 60);
+        g.setColor(c);
         myTank.paint(g);
-        myBullet.print(g);
-
-
+        Iterator<Bullet> iterator = bulletList.iterator();
+        while (iterator.hasNext()) {
+            iterator.next().print(g, iterator);
+        }
     }
 
     Image offScreenImage = null;
@@ -52,14 +61,6 @@ public class TankFrame extends Frame {
         gOffScreen.setColor(c);
         paint(gOffScreen);
         g.drawImage(offScreenImage, 0, 0, null);
-    }
-
-    public Bullet getMyBullet() {
-        return myBullet;
-    }
-
-    public void setMyBullet(Bullet myBullet) {
-        this.myBullet = myBullet;
     }
 
     class MyKeyListener extends KeyAdapter {
