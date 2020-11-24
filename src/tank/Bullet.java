@@ -6,7 +6,7 @@ import java.util.Iterator;
 public class Bullet {
     // 定义子弹的长宽
     public static final int WIDTH = ResourceMgr.bulletD.getWidth();
-    public static final int HEIGHT =  ResourceMgr.bulletD.getHeight();
+    public static final int HEIGHT = ResourceMgr.bulletD.getHeight();
 
     // 定义子弹的位置
     private int xPos;
@@ -22,7 +22,7 @@ public class Bullet {
     private TankFrame tankFrame = null;
 
     // 子弹是否存活
-    private Boolean live = true;
+    private Boolean islive = true;
 
     public Bullet(int xPos, int yPos, Dir dir, TankFrame tankFrame) {
         this.xPos = xPos;
@@ -32,7 +32,7 @@ public class Bullet {
     }
 
     public void print(Graphics g, Iterator<Bullet> iterator) {
-        if (!live) {
+        if (!islive) {
             iterator.remove();
         }
         switch (dir) {
@@ -68,8 +68,23 @@ public class Bullet {
                 break;
         }
         if (xPos < 0 || xPos >= TankFrame.GAME_WIDTH || yPos < 0 || yPos >= TankFrame.GAME_HEIGHT) {
-            live = false;
+            islive = false;
         }
     }
+
+    public void collideWith(Tank tank) {
+        Rectangle bulletRec = new Rectangle(xPos, yPos, WIDTH, HEIGHT);
+        Rectangle tankRec = new Rectangle(tank.getxPos(), tank.getyPos(), tank.WIDTH, tank.HEIGHT);
+
+        if (bulletRec.intersects(tankRec)){
+            tank.die();
+            this.die();
+        }
+    }
+
+    private void die() {
+        islive = false;
+    }
+
 
 }

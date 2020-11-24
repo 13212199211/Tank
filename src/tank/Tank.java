@@ -1,6 +1,7 @@
 package tank;
 
 import java.awt.*;
+import java.util.Iterator;
 
 public class Tank {
     // 不要忘记初始化
@@ -8,8 +9,8 @@ public class Tank {
     private int yPos = 200;
 
     // 坦克的长宽
-    private static final int WIDTH = ResourceMgr.tankD.getWidth();
-    private static final int HEIGHT = ResourceMgr.tankD.getHeight();
+    public static final int WIDTH = ResourceMgr.tankD.getWidth();
+    public static final int HEIGHT = ResourceMgr.tankD.getHeight();
 
     // 引入方向的概念
     private Dir dir = Dir.DOWN;
@@ -19,6 +20,9 @@ public class Tank {
 
     // 定义坦克是否移动，用于处理坦克静止的情况
     private boolean moving = false;
+
+    //坦克是否存活
+    private boolean islive = true;
 
     // 地图
     TankFrame tankFrame = null;
@@ -46,7 +50,14 @@ public class Tank {
         this.moving = moving;
     }
 
-    public void paint(Graphics g) {
+    public void paint(Graphics g, Iterator<Tank> iterator) {
+        if (!islive) {
+            // 这里移除掉的话，下次再画就不会画出来了，因此眼前呈现的也就是坦克消失了
+            if (iterator != null) {
+                iterator.remove();
+            }
+            //return;
+        }
         switch (dir) {
             case RIGHT:
                 g.drawImage(ResourceMgr.tankR, xPos, yPos, null);
@@ -90,5 +101,25 @@ public class Tank {
     public void fire() {
         Bullet bullet = new Bullet(xPos + (WIDTH - Bullet.WIDTH) / 2, yPos + (HEIGHT - Bullet.HEIGHT) / 2, dir, tankFrame);
         tankFrame.getBulletList().add(bullet);
+    }
+
+    public int getxPos() {
+        return xPos;
+    }
+
+    public void setxPos(int xPos) {
+        this.xPos = xPos;
+    }
+
+    public int getyPos() {
+        return yPos;
+    }
+
+    public void setyPos(int yPos) {
+        this.yPos = yPos;
+    }
+
+    public void die() {
+        islive = false;
     }
 }

@@ -14,7 +14,8 @@ public class TankFrame extends Frame {
     public static final int GAME_WIDTH = 1500;
     public static final int GAME_HEIGHT = 1000;
 
-    private Tank myTank = new Tank(200, 200, Dir.DOWN, this);
+    private Tank myTank = new Tank(500, 800, Dir.UP, this);
+    protected List<Tank> enemyTank = new ArrayList<Tank>();
     private List<Bullet> bulletList = new ArrayList<Bullet>();
 
     public TankFrame() {
@@ -34,16 +35,28 @@ public class TankFrame extends Frame {
     public List<Bullet> getBulletList() {
         return bulletList;
     }
+
     @Override
     public void paint(Graphics g) {
         Color c = g.getColor();
         g.setColor(Color.WHITE);
         g.drawString("子弹的数量:" + bulletList.size(), 10, 60);
+        g.drawString("坦克的数量:" + enemyTank.size(), 10, 80);
         g.setColor(c);
-        myTank.paint(g);
+        myTank.paint(g, null);
+        Iterator<Tank> enemyTankIte = enemyTank.iterator();
+        while (enemyTankIte.hasNext()) {
+            enemyTankIte.next().paint(g, enemyTankIte);
+        }
         Iterator<Bullet> iterator = bulletList.iterator();
         while (iterator.hasNext()) {
             iterator.next().print(g, iterator);
+        }
+        for (Bullet bullet : bulletList) {
+            for (Tank tank : enemyTank) {
+                bullet.collideWith(tank);
+
+            }
         }
     }
 
