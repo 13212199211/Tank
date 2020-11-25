@@ -18,6 +18,8 @@ public class ResourceMgr {
     public static BufferedImage bulletU;
     public static BufferedImage bulletD;
 
+    public static BufferedImage[] explode = new BufferedImage[16];
+
     static {
         try {
             tankL = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream("images/tankL.gif"));
@@ -29,6 +31,10 @@ public class ResourceMgr {
             bulletR = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream("images/bulletR.gif"));
             bulletU = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream("images/bulletU.gif"));
             bulletD = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream("images/bulletD.gif"));
+
+            for (int i = 1; i < 17; i++) {
+                explode[i - 1] = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream("images/e" + i + ".gif"));
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -21,13 +21,15 @@ public class Bullet {
     // 地图
     private TankFrame tankFrame = null;
 
+    private Group group = Group.BAD;
     // 子弹是否存活
     private Boolean islive = true;
 
-    public Bullet(int xPos, int yPos, Dir dir, TankFrame tankFrame) {
+    public Bullet(int xPos, int yPos, Dir dir, Group group, TankFrame tankFrame) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.dir = dir;
+        this.group = group;
         this.tankFrame = tankFrame;
     }
 
@@ -73,13 +75,18 @@ public class Bullet {
     }
 
     public void collideWith(Tank tank) {
+        if (group == tank.getGroup()) {
+            return;
+        }
         Rectangle bulletRec = new Rectangle(xPos, yPos, WIDTH, HEIGHT);
         Rectangle tankRec = new Rectangle(tank.getxPos(), tank.getyPos(), tank.WIDTH, tank.HEIGHT);
 
-        if (bulletRec.intersects(tankRec)){
+        if (bulletRec.intersects(tankRec)) {
             tank.die();
             this.die();
+            tankFrame.explodeList.add(new Explode(xPos, yPos));
         }
+
     }
 
     private void die() {

@@ -2,6 +2,7 @@ package tank;
 
 import java.awt.*;
 import java.util.Iterator;
+import java.util.Random;
 
 public class Tank {
     // 不要忘记初始化
@@ -19,18 +20,22 @@ public class Tank {
     private static final int SPEED = 5;
 
     // 定义坦克是否移动，用于处理坦克静止的情况
-    private boolean moving = false;
+    private boolean moving = true;
 
-    //坦克是否存活
+    // 坦克是否存活
     private boolean islive = true;
+
+    // 组别，防止敌方坦克自己发射子弹把自己打死
+    private Group group = Group.BAD;
 
     // 地图
     TankFrame tankFrame = null;
 
-    public Tank(int xPos, int yPos, Dir dir, TankFrame tankFrame) {
+    public Tank(int xPos, int yPos, Dir dir, Group group, TankFrame tankFrame) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.dir = dir;
+        this.group = group;
         this.tankFrame = tankFrame;
     }
 
@@ -48,6 +53,14 @@ public class Tank {
 
     public void setMoving(boolean moving) {
         this.moving = moving;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
     }
 
     public void paint(Graphics g, Iterator<Tank> iterator) {
@@ -96,11 +109,14 @@ public class Tank {
                 xPos += SPEED;
                 break;
         }
+        if (new Random().nextInt(10) >= 8) {
+            fire();
+        }
     }
 
     public void fire() {
-        Bullet bullet = new Bullet(xPos + (WIDTH - Bullet.WIDTH) / 2, yPos + (HEIGHT - Bullet.HEIGHT) / 2, dir, tankFrame);
-        tankFrame.getBulletList().add(bullet);
+        Bullet bullet = new Bullet(xPos + (WIDTH - Bullet.WIDTH) / 2, yPos + (HEIGHT - Bullet.HEIGHT) / 2, dir, group, tankFrame);
+        tankFrame.bulletList.add(bullet);
     }
 
     public int getxPos() {
