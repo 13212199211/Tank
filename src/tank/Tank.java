@@ -29,7 +29,10 @@ public class Tank {
     private Group group = Group.BAD;
 
     // 地图
-    TankFrame tankFrame = null;
+    private TankFrame tankFrame = null;
+
+    // 随机数
+    private Random random = new Random();
 
     public Tank(int xPos, int yPos, Dir dir, Group group, TankFrame tankFrame) {
         this.xPos = xPos;
@@ -109,9 +112,36 @@ public class Tank {
                 xPos += SPEED;
                 break;
         }
-        if (new Random().nextInt(10) >= 8) {
+        if (group == Group.BAD && random.nextInt(100) >= 95) {
             fire();
         }
+        if (group == Group.BAD && random.nextInt(100) >= 95) {
+            randomDir();
+        }
+        if (xPos < 0 || xPos >= TankFrame.GAME_WIDTH || yPos < 0 || yPos >= TankFrame.GAME_HEIGHT) {
+            changeDir(dir);
+        }
+    }
+
+    private void changeDir(Dir curDir) {
+        switch (curDir) {
+            case UP:
+                dir = Dir.DOWN;
+                break;
+            case DOWN:
+                dir = Dir.UP;
+                break;
+            case LEFT:
+                dir = Dir.RIGHT;
+                break;
+            case RIGHT:
+                dir = Dir.LEFT;
+                break;
+        }
+    }
+
+    private void randomDir() {
+        this.dir = Dir.values()[random.nextInt(4)];
     }
 
     public void fire() {
