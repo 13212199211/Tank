@@ -1,6 +1,7 @@
 package tank;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -10,8 +11,11 @@ public class Tank {
     private int yPos = 200;
 
     // 坦克的长宽
-    public static final int WIDTH = ResourceMgr.tankD.getWidth();
-    public static final int HEIGHT = ResourceMgr.tankD.getHeight();
+    public static final int WIDTH = ResourceMgr.badTankD[0].getWidth();
+    public static final int HEIGHT = ResourceMgr.badTankD[0].getHeight();
+
+    // 切换图片间隔
+    private static final int LIGHT_TIMES = 20;
 
     // 引入方向的概念
     private Dir dir = Dir.DOWN;
@@ -33,6 +37,12 @@ public class Tank {
 
     // 随机数
     private Random random = new Random();
+
+    // 当前图片索引
+    private int curTimes = 0;
+
+    // 当前图片索引
+    private int curPic = 0;
 
     public Tank(int xPos, int yPos, Dir dir, Group group, TankFrame tankFrame) {
         this.xPos = xPos;
@@ -76,19 +86,33 @@ public class Tank {
         }
         switch (dir) {
             case RIGHT:
-                g.drawImage(ResourceMgr.tankR, xPos, yPos, null);
+                g.drawImage(group == Group.BAD ? loadTankPicture(ResourceMgr.badTankR) : loadTankPicture(ResourceMgr.goodTankR),
+                        xPos, yPos, null);
                 break;
             case LEFT:
-                g.drawImage(ResourceMgr.tankL, xPos, yPos, null);
+                g.drawImage(group == Group.BAD ? loadTankPicture(ResourceMgr.badTankL) : loadTankPicture(ResourceMgr.goodTankL),
+                        xPos, yPos, null);
                 break;
             case UP:
-                g.drawImage(ResourceMgr.tankU, xPos, yPos, null);
+                g.drawImage(group == Group.BAD ? loadTankPicture(ResourceMgr.badTankU) : loadTankPicture(ResourceMgr.goodTankU),
+                        xPos, yPos, null);
                 break;
             case DOWN:
-                g.drawImage(ResourceMgr.tankD, xPos, yPos, null);
+                g.drawImage(group == Group.BAD ? loadTankPicture(ResourceMgr.badTankD) : loadTankPicture(ResourceMgr.goodTankD),
+                        xPos, yPos, null);
                 break;
         }
         move();
+    }
+
+    private BufferedImage loadTankPicture(BufferedImage[] tankPic) {
+        if (curTimes / LIGHT_TIMES != 0) {
+            curTimes = -1;
+            // 切换图片
+            curPic = 1 - curPic;
+        }
+        curTimes++;
+        return tankPic[curPic];
     }
 
     public void move() {
@@ -115,30 +139,25 @@ public class Tank {
         if (group == Group.BAD && random.nextInt(100) >= 95) {
             fire();
         }
-        if (group == Group.BAD && random.nextInt(100) >= 95) {
+        if (group == Group.BAD && random.nextInt(100) >= 97) {
             randomDir();
         }
-        if (xPos < 0 || xPos >= TankFrame.GAME_WIDTH || yPos < 0 || yPos >= TankFrame.GAME_HEIGHT) {
-            changeDir(dir);
-        }
+        boundsCheck();
     }
 
-    private void changeDir(Dir curDir) {
-        switch (curDir) {
-            case UP:
-                dir = Dir.DOWN;
-                break;
-            case DOWN:
-                dir = Dir.UP;
-                break;
-            case LEFT:
-                dir = Dir.RIGHT;
-                break;
-            case RIGHT:
-                dir = Dir.LEFT;
-                break;
+    private void boundsCheck() {
+        if (xPos < 0) {
+            xPos = 0;
+        } else if (yPos < Tank.HEIGHT / 2) {
+            yPos = Tank.HEIGHT / 2;
+        } else if (xPos > TankFrame.GAME_WIDTH - Tank.WIDTH) {
+            xPos = TankFrame.GAME_WIDTH - Tank.WIDTH;
+        } else if (yPos > TankFrame.GAME_HEIGHT - Tank.HEIGHT) {
+            yPos = TankFrame.GAME_HEIGHT - Tank.HEIGHT;
         }
+
     }
+
 
     private void randomDir() {
         this.dir = Dir.values()[random.nextInt(4)];

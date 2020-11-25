@@ -39,6 +39,7 @@ public class TankFrame extends Frame {
         g.setColor(Color.WHITE);
         g.drawString("子弹的数量:" + bulletList.size(), 10, 60);
         g.drawString("坦克的数量:" + enemyTank.size(), 10, 80);
+        g.drawString("爆炸的数量:" + explodeList.size(), 10, 100);
         g.setColor(c);
         myTank.paint(g, null);
         Iterator<Tank> enemyTankIte = enemyTank.iterator();
