@@ -31,6 +31,7 @@ public class Bullet {
         this.dir = dir;
         this.group = group;
         this.tankFrame = tankFrame;
+        tankFrame.bulletList.add(this);
     }
 
     public void print(Graphics g, Iterator<Bullet> iterator) {

@@ -1,5 +1,9 @@
 package tank;
 
+import tank.fire.FireStrategy;
+import tank.fire.FourDirFireStrategy;
+import tank.fire.SingleFireStrategy;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Iterator;
@@ -44,12 +48,20 @@ public class Tank {
     // 当前图片索引
     private int curPic = 0;
 
+    // 发射策略
+    private FireStrategy fireStrategy;
+
     public Tank(int xPos, int yPos, Dir dir, Group group, TankFrame tankFrame) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.dir = dir;
         this.group = group;
         this.tankFrame = tankFrame;
+        if (group == Group.BAD) {
+            fireStrategy = new SingleFireStrategy();
+        } else {
+            fireStrategy = new FourDirFireStrategy();
+        }
     }
 
     public Dir getDir() {
@@ -74,6 +86,14 @@ public class Tank {
 
     public void setGroup(Group group) {
         this.group = group;
+    }
+
+    public TankFrame getTankFrame() {
+        return tankFrame;
+    }
+
+    public void setTankFrame(TankFrame tankFrame) {
+        this.tankFrame = tankFrame;
     }
 
     public void paint(Graphics g, Iterator<Tank> iterator) {
@@ -136,10 +156,10 @@ public class Tank {
                 xPos += SPEED;
                 break;
         }
-        if (group == Group.BAD && random.nextInt(100) >= 95) {
+        if (group == Group.BAD && random.nextInt(100) >= 98) {
             fire();
         }
-        if (group == Group.BAD && random.nextInt(100) >= 97) {
+        if (group == Group.BAD && random.nextInt(100) >= 95) {
             randomDir();
         }
         boundsCheck();
@@ -164,8 +184,7 @@ public class Tank {
     }
 
     public void fire() {
-        Bullet bullet = new Bullet(xPos + (WIDTH - Bullet.WIDTH) / 2, yPos + (HEIGHT - Bullet.HEIGHT) / 2, dir, group, tankFrame);
-        tankFrame.bulletList.add(bullet);
+        fireStrategy.fire(this);
     }
 
     public int getxPos() {
