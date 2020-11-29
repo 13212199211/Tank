@@ -4,7 +4,7 @@ public class Main {
     public static void main(String[] args) {
         TankFrame tankFrame = new TankFrame();
         // 初始化敌放坦克
-        initEnemyTank(tankFrame, 5);
+        initEnemyTank(tankFrame, Integer.parseInt(String.valueOf(PropertyMgr.get("initTankCount"))));
 
         while (true) {
             // 这里的repaint方法会自动调用paint方法
@@ -14,6 +14,9 @@ public class Main {
                 Thread.sleep(10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
+            }
+            if (tankFrame.enemyTank.size() == 0) {
+                initEnemyTank(tankFrame, 2);
             }
         }
     }
