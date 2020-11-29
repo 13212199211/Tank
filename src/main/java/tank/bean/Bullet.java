@@ -1,5 +1,7 @@
 package tank.bean;
 
+import lombok.Getter;
+import lombok.Setter;
 import tank.enums.Dir;
 import tank.enums.Group;
 import tank.frame.GameModel;
@@ -9,7 +11,9 @@ import tank.manager.ResourceMgr;
 import java.awt.*;
 import java.util.Iterator;
 
-public class Bullet {
+@Getter
+@Setter
+public class Bullet extends GameObject {
     // 定义子弹的长宽
     public static final int WIDTH = ResourceMgr.bulletD.getWidth();
     public static final int HEIGHT = ResourceMgr.bulletD.getHeight();
@@ -31,18 +35,22 @@ public class Bullet {
     // 子弹是否存活
     private Boolean islive = true;
 
+    private Rectangle rectangle = null;
+
     public Bullet(int xPos, int yPos, Dir dir, Group group, GameModel gameModel) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.dir = dir;
         this.group = group;
         this.gameModel = gameModel;
-        gameModel.getBulletList().add(this);
+        this.rectangle = new Rectangle(xPos, yPos, WIDTH, HEIGHT);
+        gameModel.getAddObjects().add(this);
     }
 
-    public void print(Graphics g, Iterator<Bullet> iterator) {
+    public void paint(Graphics g, Iterator iterator) {
         if (!islive) {
             iterator.remove();
+            return;
         }
         switch (dir) {
             case RIGHT:
@@ -76,27 +84,13 @@ public class Bullet {
                 xPos += SPEED;
                 break;
         }
+        rectangle.setLocation(xPos, yPos);
         if (xPos < 0 || xPos >= TankFrame.GAME_WIDTH || yPos < 0 || yPos >= TankFrame.GAME_HEIGHT) {
             islive = false;
         }
     }
 
-    public void collideWith(Tank tank) {
-        if (group == tank.getGroup()) {
-            return;
-        }
-        Rectangle bulletRec = new Rectangle(xPos, yPos, WIDTH, HEIGHT);
-        Rectangle tankRec = new Rectangle(tank.getXPos(), tank.getYPos(), tank.WIDTH, tank.HEIGHT);
-
-        if (bulletRec.intersects(tankRec)) {
-            tank.die();
-            this.die();
-            gameModel.getExplodeList().add(new Explode(tank.getXPos(), tank.getYPos()));
-        }
-
-    }
-
-    private void die() {
+    public void die() {
         islive = false;
     }
 

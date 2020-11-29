@@ -18,29 +18,38 @@ import java.util.Random;
 
 @Getter
 @Setter
-public class Tank {
-    // 不要忘记初始化
-    private int xPos = 200;
-    private int yPos = 200;
-
+public class Tank extends GameObject {
     // 坦克的长宽
     public static final int WIDTH = ResourceMgr.badTankD[0].getWidth();
     public static final int HEIGHT = ResourceMgr.badTankD[0].getHeight();
 
-    // 切换图片间隔
-    private static final int LIGHT_TIMES = 20;
-
-    // 引入方向的概念
-    private Dir dir = Dir.DOWN;
-
     // 定义坦克移动的速度，声明为final无法进行改变
     private static final int SPEED = 5;
+
+    // 切换图片间隔
+    private static final int LIGHT_TIMES = 20;
 
     // 定义坦克是否移动，用于处理坦克静止的情况
     private boolean moving = true;
 
     // 坦克是否存活
     private boolean islive = true;
+
+    // 不要忘记初始化
+    private int xPos = 200;
+    private int yPos = 200;
+
+    // 当前图片索引
+    private int curTimes = 0;
+
+    // 当前图片索引
+    private int curPic = 0;
+
+    //修改方向次数
+    private int changeDirTime = 0;
+
+    // 引入方向的概念
+    private Dir dir = Dir.DOWN;
 
     // 组别，防止敌方坦克自己发射子弹把自己打死
     private Group group = Group.BAD;
@@ -51,14 +60,10 @@ public class Tank {
     // 随机数
     private Random random = new Random();
 
-    // 当前图片索引
-    private int curTimes = 0;
-
-    // 当前图片索引
-    private int curPic = 0;
-
     // 发射策略
     private FireStrategy fireStrategy;
+
+    private Rectangle rectangle = null;
 
     public Tank(int xPos, int yPos, Dir dir, Group group, GameModel gameModel) {
         this.xPos = xPos;
@@ -66,20 +71,20 @@ public class Tank {
         this.dir = dir;
         this.group = group;
         this.gameModel = gameModel;
+        this.rectangle = new Rectangle(xPos, yPos, WIDTH, HEIGHT);
         if (group == Group.BAD) {
             fireStrategy = new SingleFireStrategy();
         } else {
+            moving = false;
             fireStrategy = new FourDirFireStrategy();
         }
     }
 
-    public void paint(Graphics g, Iterator<Tank> iterator) {
+    public void paint(Graphics g, Iterator iterator) {
         if (!islive) {
             // 这里移除掉的话，下次再画就不会画出来了，因此眼前呈现的也就是坦克消失了
-            if (iterator != null) {
-                iterator.remove();
-            }
-            //return;
+            iterator.remove();
+            return;
         }
         switch (dir) {
             case RIGHT:
@@ -137,27 +142,39 @@ public class Tank {
             fire();
         }
         if (group == Group.BAD && random.nextInt(100) >= 95) {
-            randomDir();
+            randomDir(false);
         }
         boundsCheck();
+        rectangle.setLocation(xPos, yPos);
     }
 
     private void boundsCheck() {
         if (xPos < 0) {
             xPos = 0;
+            randomDir(true);
         } else if (yPos < Tank.HEIGHT / 2) {
             yPos = Tank.HEIGHT / 2;
+            randomDir(true);
         } else if (xPos > TankFrame.GAME_WIDTH - Tank.WIDTH) {
             xPos = TankFrame.GAME_WIDTH - Tank.WIDTH;
+            randomDir(true);
         } else if (yPos > TankFrame.GAME_HEIGHT - Tank.HEIGHT) {
             yPos = TankFrame.GAME_HEIGHT - Tank.HEIGHT;
+            randomDir(true);
         }
 
     }
 
-
-    private void randomDir() {
-        this.dir = Dir.values()[random.nextInt(4)];
+    private void randomDir(boolean rightnow) {
+        changeDirTime++;
+        if (rightnow) {
+            this.dir = Dir.values()[random.nextInt(4)];
+            return;
+        }
+        if (changeDirTime == 2) {
+            this.dir = Dir.values()[random.nextInt(4)];
+            changeDirTime = 0;
+        }
     }
 
     public void fire() {

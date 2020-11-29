@@ -5,10 +5,7 @@ import tank.manager.ResourceMgr;
 import java.awt.*;
 import java.util.Iterator;
 
-public class Explode {
-    private int xPos;
-
-    private int yPos;
+public class Explode extends GameObject {
 
     private int step = 0;
 
@@ -17,11 +14,10 @@ public class Explode {
         this.yPos = yPos;
     }
 
-    public void paint(Graphics g, Iterator<Explode> iterator) {
+    public void paint(Graphics g, Iterator iterator) {
         g.drawImage(ResourceMgr.explode[step++], xPos, yPos, null);
         if (step >= ResourceMgr.explode.length) {
             iterator.remove();
         }
     }
-
 }
