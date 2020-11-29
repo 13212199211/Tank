@@ -10,13 +10,14 @@ public class Main {
         TankFrame tankFrame = new TankFrame(gameModel);
         // 初始化敌放坦克
         gameModel.addTank(Integer.parseInt(PropertyMgr.get("initTankCount")));
+        gameModel.addWall();
 
         while (true) {
             // 这里的repaint方法会自动调用paint方法
             tankFrame.repaint();
             // 延迟50ms
             try {
-                Thread.sleep(10);
+                Thread.sleep(Integer.parseInt(PropertyMgr.get("DELAY_TIME")));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

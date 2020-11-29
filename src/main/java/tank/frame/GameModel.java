@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import tank.bean.GameObject;
 import tank.bean.Tank;
+import tank.bean.Wall;
 import tank.chain.ColliderChain;
 import tank.enums.Dir;
 import tank.enums.Group;
@@ -13,6 +14,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 @Getter
 @Setter
@@ -27,6 +29,8 @@ public class GameModel {
     private ColliderChain colliderChain = ColliderChain.getInstance();
     private List<GameObject> gameObjects = new ArrayList<>();
     private List<GameObject> addObjects = new ArrayList<>();
+
+    private Random random = new Random();
 
     public void paint(Graphics g) {
         /*Color c = g.getColor();
@@ -52,7 +56,17 @@ public class GameModel {
 
     public void addTank(int counts) {
         for (int i = 0; i < counts; i++) {
-            gameObjects.add(new Tank(200 + i * 150, 200, Dir.DOWN, Group.BAD, this));
+            gameObjects.add(
+                    new Tank(i * (TankFrame.GAME_WIDTH) / counts,
+                            200,
+                            Dir.DOWN, Group.BAD, this));
         }
+    }
+
+    public void addWall(){
+        gameObjects.add(new Wall(300,300,50,500));
+        gameObjects.add(new Wall(500,300,500,50));
+        gameObjects.add(new Wall(800,100,400,50));
+        gameObjects.add(new Wall(500,700,50,400));
     }
 }

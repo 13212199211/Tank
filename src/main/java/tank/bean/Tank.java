@@ -146,7 +146,7 @@ public class Tank extends GameObject {
         if (group == Group.BAD && random.nextInt(100) >= 98) {
             fire();
         }
-        if (group == Group.BAD && random.nextInt(100) >= 95) {
+        if (group == Group.BAD && random.nextInt(100) >= 90) {
             randomDir(false);
         }
         boundsCheck();
