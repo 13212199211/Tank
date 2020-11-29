@@ -18,10 +18,6 @@ public class Bullet extends GameObject {
     public static final int WIDTH = ResourceMgr.bulletD.getWidth();
     public static final int HEIGHT = ResourceMgr.bulletD.getHeight();
 
-    // 定义子弹的位置
-    private int xPos;
-    private int yPos;
-
     // 定义子弹的方向
     private Dir dir;
 

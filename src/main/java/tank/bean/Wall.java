@@ -9,9 +9,7 @@ import java.util.Iterator;
 @Getter
 @Setter
 public class Wall extends GameObject {
-
-    private int xPos;
-    private int yPos;
+    
     private int width;
     private int height;
     private Rectangle rectangle;

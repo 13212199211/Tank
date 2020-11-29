@@ -35,10 +35,6 @@ public class Tank extends GameObject {
     // 坦克是否存活
     private boolean islive = true;
 
-    // 不要忘记初始化
-    private int xPos = 200;
-    private int yPos = 200;
-
     private int oldxPos;
     private int oldyPos;
 
