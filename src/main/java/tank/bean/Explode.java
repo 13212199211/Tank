@@ -1,4 +1,6 @@
-package tank;
+package tank.bean;
+
+import tank.manager.ResourceMgr;
 
 import java.awt.*;
 import java.util.Iterator;

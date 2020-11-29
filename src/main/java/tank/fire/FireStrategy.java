@@ -1,6 +1,6 @@
 package tank.fire;
 
-import tank.Tank;
+import tank.bean.Tank;
 
 /**
  * 开火策略模式

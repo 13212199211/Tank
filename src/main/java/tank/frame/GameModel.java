@@ -1,7 +1,13 @@
-package tank;
+package tank.frame;
 
 import lombok.Getter;
 import lombok.Setter;
+import tank.bean.Bullet;
+import tank.bean.Explode;
+import tank.bean.Tank;
+import tank.enums.Dir;
+import tank.enums.Group;
+import tank.manager.PropertyMgr;
 
 import java.awt.*;
 import java.util.ArrayList;

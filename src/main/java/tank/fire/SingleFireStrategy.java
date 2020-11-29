@@ -1,7 +1,7 @@
 package tank.fire;
 
-import tank.Bullet;
-import tank.Tank;
+import tank.bean.Bullet;
+import tank.bean.Tank;
 
 public class SingleFireStrategy implements FireStrategy {
 

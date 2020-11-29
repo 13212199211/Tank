@@ -1,5 +1,9 @@
 package tank;
 
+import tank.frame.GameModel;
+import tank.frame.TankFrame;
+import tank.manager.PropertyMgr;
+
 public class Main {
     public static void main(String[] args) {
         GameModel gameModel = new GameModel();

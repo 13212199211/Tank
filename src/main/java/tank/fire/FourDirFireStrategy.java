@@ -1,8 +1,8 @@
 package tank.fire;
 
-import tank.Bullet;
-import tank.Dir;
-import tank.Tank;
+import tank.enums.Dir;
+import tank.bean.Bullet;
+import tank.bean.Tank;
 
 public class FourDirFireStrategy implements FireStrategy {
 

@@ -1,4 +1,10 @@
-package tank;
+package tank.bean;
+
+import tank.enums.Dir;
+import tank.enums.Group;
+import tank.frame.GameModel;
+import tank.frame.TankFrame;
+import tank.manager.ResourceMgr;
 
 import java.awt.*;
 import java.util.Iterator;

@@ -1,16 +1,17 @@
-package tank;
+package tank.frame;
 
 import lombok.Getter;
 import lombok.Setter;
+import tank.bean.Tank;
+import tank.enums.Dir;
+import tank.frame.GameModel;
+import tank.manager.PropertyMgr;
 
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 @Getter
 @Setter

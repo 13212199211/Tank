@@ -1,4 +1,4 @@
-package tank;
+package tank.manager;
 
 import java.io.IOException;
 import java.util.Properties;

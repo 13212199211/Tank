@@ -1,10 +1,15 @@
-package tank;
+package tank.bean;
 
 import lombok.Getter;
 import lombok.Setter;
+import tank.enums.Dir;
+import tank.enums.Group;
 import tank.fire.FireStrategy;
 import tank.fire.FourDirFireStrategy;
 import tank.fire.SingleFireStrategy;
+import tank.frame.GameModel;
+import tank.frame.TankFrame;
+import tank.manager.ResourceMgr;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
