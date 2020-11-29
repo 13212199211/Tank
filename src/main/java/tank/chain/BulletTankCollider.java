@@ -14,12 +14,14 @@ public class BulletTankCollider implements Collider {
             Bullet bullet = (Bullet) o1;
             Tank tank = (Tank) o2;
             collideWith(bullet, tank);
+            return false;
         } else if (o1 instanceof Tank && o2 instanceof Bullet) {
             Tank tank = (Tank) o1;
             Bullet bullet = (Bullet) o2;
             collideWith(bullet, tank);
+            return false;
         }
-        return false;
+        return true;
     }
 
     public void collideWith(Bullet bullet, Tank tank) {

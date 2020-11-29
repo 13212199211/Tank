@@ -39,6 +39,9 @@ public class Tank extends GameObject {
     private int xPos = 200;
     private int yPos = 200;
 
+    private int oldxPos;
+    private int oldyPos;
+
     // 当前图片索引
     private int curTimes = 0;
 
@@ -118,6 +121,8 @@ public class Tank extends GameObject {
     }
 
     public void move() {
+        oldxPos = xPos;
+        oldyPos = yPos;
         // 如果没有按任何键，则原地不动
         if (!moving) {
             return;
@@ -175,6 +180,12 @@ public class Tank extends GameObject {
             this.dir = Dir.values()[random.nextInt(4)];
             changeDirTime = 0;
         }
+    }
+
+    public void collide() {
+        xPos = oldxPos;
+        yPos = oldyPos;
+        randomDir(true);
     }
 
     public void fire() {
