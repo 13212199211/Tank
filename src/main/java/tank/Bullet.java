@@ -19,19 +19,19 @@ public class Bullet {
     private static final int SPEED = 10;
 
     // 地图
-    private TankFrame tankFrame = null;
+    private GameModel gameModel = null;
 
     private Group group = Group.BAD;
     // 子弹是否存活
     private Boolean islive = true;
 
-    public Bullet(int xPos, int yPos, Dir dir, Group group, TankFrame tankFrame) {
+    public Bullet(int xPos, int yPos, Dir dir, Group group, GameModel gameModel) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.dir = dir;
         this.group = group;
-        this.tankFrame = tankFrame;
-        tankFrame.bulletList.add(this);
+        this.gameModel = gameModel;
+        gameModel.getBulletList().add(this);
     }
 
     public void print(Graphics g, Iterator<Bullet> iterator) {
@@ -80,12 +80,12 @@ public class Bullet {
             return;
         }
         Rectangle bulletRec = new Rectangle(xPos, yPos, WIDTH, HEIGHT);
-        Rectangle tankRec = new Rectangle(tank.getxPos(), tank.getyPos(), tank.WIDTH, tank.HEIGHT);
+        Rectangle tankRec = new Rectangle(tank.getXPos(), tank.getYPos(), tank.WIDTH, tank.HEIGHT);
 
         if (bulletRec.intersects(tankRec)) {
             tank.die();
             this.die();
-            tankFrame.explodeList.add(new Explode(tank.getxPos(), tank.getyPos()));
+            gameModel.getExplodeList().add(new Explode(tank.getXPos(), tank.getYPos()));
         }
 
     }

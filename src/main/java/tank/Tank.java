@@ -1,5 +1,7 @@
 package tank;
 
+import lombok.Getter;
+import lombok.Setter;
 import tank.fire.FireStrategy;
 import tank.fire.FourDirFireStrategy;
 import tank.fire.SingleFireStrategy;
@@ -9,6 +11,8 @@ import java.awt.image.BufferedImage;
 import java.util.Iterator;
 import java.util.Random;
 
+@Getter
+@Setter
 public class Tank {
     // 不要忘记初始化
     private int xPos = 200;
@@ -37,7 +41,7 @@ public class Tank {
     private Group group = Group.BAD;
 
     // 地图
-    private TankFrame tankFrame = null;
+    private GameModel gameModel = null;
 
     // 随机数
     private Random random = new Random();
@@ -51,49 +55,17 @@ public class Tank {
     // 发射策略
     private FireStrategy fireStrategy;
 
-    public Tank(int xPos, int yPos, Dir dir, Group group, TankFrame tankFrame) {
+    public Tank(int xPos, int yPos, Dir dir, Group group, GameModel gameModel) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.dir = dir;
         this.group = group;
-        this.tankFrame = tankFrame;
+        this.gameModel = gameModel;
         if (group == Group.BAD) {
             fireStrategy = new SingleFireStrategy();
         } else {
             fireStrategy = new FourDirFireStrategy();
         }
-    }
-
-    public Dir getDir() {
-        return dir;
-    }
-
-    public void setDir(Dir dir) {
-        this.dir = dir;
-    }
-
-    public boolean isMoving() {
-        return moving;
-    }
-
-    public void setMoving(boolean moving) {
-        this.moving = moving;
-    }
-
-    public Group getGroup() {
-        return group;
-    }
-
-    public void setGroup(Group group) {
-        this.group = group;
-    }
-
-    public TankFrame getTankFrame() {
-        return tankFrame;
-    }
-
-    public void setTankFrame(TankFrame tankFrame) {
-        this.tankFrame = tankFrame;
     }
 
     public void paint(Graphics g, Iterator<Tank> iterator) {
@@ -185,22 +157,6 @@ public class Tank {
 
     public void fire() {
         fireStrategy.fire(this);
-    }
-
-    public int getxPos() {
-        return xPos;
-    }
-
-    public void setxPos(int xPos) {
-        this.xPos = xPos;
-    }
-
-    public int getyPos() {
-        return yPos;
-    }
-
-    public void setyPos(int yPos) {
-        this.yPos = yPos;
     }
 
     public void die() {

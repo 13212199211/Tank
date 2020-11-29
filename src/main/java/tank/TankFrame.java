@@ -1,5 +1,8 @@
 package tank;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -9,17 +12,18 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+@Getter
+@Setter
 public class TankFrame extends Frame {
 
-    public static final int GAME_WIDTH = 1500;
-    public static final int GAME_HEIGHT = 1000;
+    public static final int GAME_WIDTH = Integer.parseInt(PropertyMgr.get("GAME_WIDTH"));
+    public static final int GAME_HEIGHT = Integer.parseInt(PropertyMgr.get("GAME_HEIGHT"));
+    private GameModel gameModel = null;
 
-    private Tank myTank = new Tank(500, 800, Dir.UP, Group.GOOD, this);
-    protected List<Tank> enemyTank = new ArrayList<Tank>();
-    protected List<Bullet> bulletList = new ArrayList<Bullet>();
-    protected List<Explode> explodeList = new ArrayList<Explode>();
+    private Image offScreenImage = null;
 
-    public TankFrame() {
+    public TankFrame(GameModel gameModel) {
+        this.gameModel = gameModel;
         setSize(GAME_WIDTH, GAME_HEIGHT);
         setTitle("tank war");
         setVisible(true);
@@ -35,33 +39,8 @@ public class TankFrame extends Frame {
 
     @Override
     public void paint(Graphics g) {
-        Color c = g.getColor();
-        g.setColor(Color.WHITE);
-        g.drawString("子弹的数量:" + bulletList.size(), 10, 60);
-        g.drawString("坦克的数量:" + enemyTank.size(), 10, 80);
-        g.drawString("爆炸的数量:" + explodeList.size(), 10, 100);
-        g.setColor(c);
-        myTank.paint(g, null);
-        Iterator<Tank> enemyTankIte = enemyTank.iterator();
-        while (enemyTankIte.hasNext()) {
-            enemyTankIte.next().paint(g, enemyTankIte);
-        }
-        Iterator<Bullet> iterator = bulletList.iterator();
-        while (iterator.hasNext()) {
-            iterator.next().print(g, iterator);
-        }
-        for (Bullet bullet : bulletList) {
-            for (Tank tank : enemyTank) {
-                bullet.collideWith(tank);
-            }
-        }
-        Iterator<Explode> explodeIter = explodeList.iterator();
-        while (explodeIter.hasNext()) {
-            explodeIter.next().paint(g, explodeIter);
-        }
+        gameModel.paint(g);
     }
-
-    Image offScreenImage = null;
 
     @Override
     public void update(Graphics g) {
@@ -125,7 +104,7 @@ public class TankFrame extends Frame {
                     goRight = false;
                     break;
                 case KeyEvent.VK_CONTROL:
-                    myTank.fire();
+                    gameModel.getMyTank().fire();
                     break;
                 default:
                     break;
@@ -135,7 +114,7 @@ public class TankFrame extends Frame {
         }
 
         private void upTankDir() {
-
+            Tank myTank = gameModel.getMyTank();
             if (!goDown && !goUp && !goRight && !goLeft) {
                 myTank.setMoving(false);
             } else {

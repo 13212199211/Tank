@@ -15,7 +15,7 @@ public class PropertyMgr {
         }
     }
 
-    public static Object get(String key) {
-        return properties.get(key);
+    public static String get(String key) {
+        return String.valueOf(properties.get(key));
     }
 }
