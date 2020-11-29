@@ -58,7 +58,7 @@ public class Tank extends GameObject {
     private Group group = Group.BAD;
 
     // 地图
-    private GameModel gameModel = null;
+    //private GameModel gameModel = null;
 
     // 随机数
     private Random random = new Random();
@@ -68,12 +68,12 @@ public class Tank extends GameObject {
 
     private Rectangle rectangle = null;
 
-    public Tank(int xPos, int yPos, Dir dir, Group group, GameModel gameModel) {
+    public Tank(int xPos, int yPos, Dir dir, Group group) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.dir = dir;
         this.group = group;
-        this.gameModel = gameModel;
+        //this.gameModel = gameModel;
         this.rectangle = new Rectangle(xPos, yPos, WIDTH, HEIGHT);
         if (group == Group.BAD) {
             fireStrategy = new SingleFireStrategy();

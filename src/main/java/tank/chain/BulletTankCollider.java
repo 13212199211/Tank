@@ -4,6 +4,7 @@ import tank.bean.Bullet;
 import tank.bean.Explode;
 import tank.bean.GameObject;
 import tank.bean.Tank;
+import tank.frame.GameModel;
 
 import java.awt.*;
 
@@ -34,7 +35,7 @@ public class BulletTankCollider implements Collider {
         if (bulletRec.intersects(tankRec)) {
             tank.die();
             bullet.die();
-            tank.getGameModel().getGameObjects().add(new Explode(tank.getXPos(), tank.getYPos()));
+            GameModel.getInstance().add(new Explode(tank.getXPos(), tank.getYPos()));
         }
     }
 }

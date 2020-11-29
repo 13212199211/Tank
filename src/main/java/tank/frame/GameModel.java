@@ -14,7 +14,6 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 
 @Getter
 @Setter
@@ -23,14 +22,25 @@ public class GameModel {
             Integer.parseInt(PropertyMgr.get("MY_TANK_XPOS")),
             Integer.parseInt(PropertyMgr.get("MY_TANK_YPOS")),
             Dir.UP,
-            Group.GOOD,
-            this);
+            Group.GOOD);
 
     private ColliderChain colliderChain = ColliderChain.getInstance();
     private List<GameObject> gameObjects = new ArrayList<>();
     private List<GameObject> addObjects = new ArrayList<>();
 
-    private Random random = new Random();
+    private static class Instance {
+        private static GameModel INSTANCE = new GameModel();
+    }
+
+    private GameModel() {
+        // 初始化敌放坦克
+        addTank(Integer.parseInt(PropertyMgr.get("initTankCount")));
+        addWall();
+    }
+
+    public static GameModel getInstance() {
+        return Instance.INSTANCE;
+    }
 
     public void paint(Graphics g) {
         /*Color c = g.getColor();
@@ -56,17 +66,18 @@ public class GameModel {
 
     public void addTank(int counts) {
         for (int i = 0; i < counts; i++) {
-            gameObjects.add(
-                    new Tank(i * (TankFrame.GAME_WIDTH) / counts,
-                            200,
-                            Dir.DOWN, Group.BAD, this));
+            add(new Tank(i * (TankFrame.GAME_WIDTH) / counts, 200, Dir.DOWN, Group.BAD));
         }
     }
 
-    public void addWall(){
-        gameObjects.add(new Wall(300,300,50,500));
-        gameObjects.add(new Wall(500,300,500,50));
-        gameObjects.add(new Wall(800,100,400,50));
-        gameObjects.add(new Wall(500,700,50,400));
+    public void addWall() {
+        add(new Wall(300, 300, 50, 500));
+        add(new Wall(500, 300, 500, 50));
+        add(new Wall(800, 100, 400, 50));
+        add(new Wall(500, 700, 50, 400));
+    }
+
+    public void add(GameObject gameObject) {
+        addObjects.add(gameObject);
     }
 }

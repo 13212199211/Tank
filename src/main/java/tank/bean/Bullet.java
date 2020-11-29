@@ -28,23 +28,19 @@ public class Bullet extends GameObject {
     // 定义子弹的速度
     private static final int SPEED = 10;
 
-    // 地图
-    private GameModel gameModel = null;
-
     private Group group = Group.BAD;
     // 子弹是否存活
     private Boolean islive = true;
 
     private Rectangle rectangle = null;
 
-    public Bullet(int xPos, int yPos, Dir dir, Group group, GameModel gameModel) {
+    public Bullet(int xPos, int yPos, Dir dir, Group group) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.dir = dir;
         this.group = group;
-        this.gameModel = gameModel;
         this.rectangle = new Rectangle(xPos, yPos, WIDTH, HEIGHT);
-        gameModel.getAddObjects().add(this);
+        GameModel.getInstance().add(this);
     }
 
     public void paint(Graphics g, Iterator iterator) {
